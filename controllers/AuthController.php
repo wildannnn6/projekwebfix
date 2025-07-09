@@ -1,6 +1,5 @@
 <?php
 
-
 include '../config/database.php';
 include '../models/User.php';
 

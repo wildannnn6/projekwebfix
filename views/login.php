@@ -83,21 +83,6 @@ if($_POST) {
                             <i class="fas fa-sign-in-alt me-2"></i>Login
                         </button>
                     </form>
-
-                    <div class="text-center">
-                        <small class="text-muted">
-                            belum punya akun? <a href="regis.php">regis akun</a>
-                        </small>
-                    </div>
-
-                    <div class="text-center">
-                        <small class="text-muted">
-                            <strong>Demo Accounts:</strong><br>
-                            Super Admin: superadmin / superadmin<br>
-                            Staff: staff / staff<br>
-                            User: user1 / user1
-                        </small>
-                    </div>
                 </div>
             </div>
         </div>
