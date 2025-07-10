@@ -12,18 +12,18 @@ $database = new Database();
 $db = $database->getConnection();
 $menu = new Menu($db);
 
-if($_POST && isset($_POST['action']) && $_POST['action'] == 'place_order') {
+if ($_POST && isset($_POST['action']) && $_POST['action'] == 'place_order') {
     $order = new Order($db);
     $order->user_id = $_SESSION['user_id'];
     $order->customer_name = $_POST['customer_name'];
     $order->customer_phone = $_POST['customer_phone'];
     $order->total_amount = $_POST['total_amount'];
     $order->status = 'pending';
-    
+
     $order_id = $order->create();
-    if($order_id) {
+    if ($order_id) {
         $cart_items = json_decode($_POST['cart_items'], true);
-        foreach($cart_items as $item) {
+        foreach ($cart_items as $item) {
             $query = "INSERT INTO order_items (order_id, menu_id, quantity, price) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
             $stmt->execute([$order_id, $item['id'], $item['quantity'], $item['price']]);
@@ -38,6 +38,7 @@ $stmt = $menu->readAvailable();
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,8 +48,9 @@ $stmt = $menu->readAvailable();
     <style>
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(135deg,rgb(102, 234, 131) 0%,rgb(75, 162, 162) 100%);
+            background: linear-gradient(135deg, rgb(102, 234, 131) 0%, rgb(75, 162, 162) 100%);
         }
+
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
             padding: 0.75rem 1rem;
@@ -56,18 +58,23 @@ $stmt = $menu->readAvailable();
             border-radius: 0.5rem;
             transition: all 0.3s;
         }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
             color: white;
             background: rgba(255, 255, 255, 0.1);
         }
+
         .menu-card {
             transition: transform 0.3s;
             border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .menu-card:hover {
             transform: translateY(-5px);
         }
+
         .cart-sidebar {
             position: fixed;
             right: -300px;
@@ -75,29 +82,33 @@ $stmt = $menu->readAvailable();
             width: 300px;
             height: 100vh;
             background: white;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
             transition: right 0.3s;
             z-index: 1000;
             overflow-y: auto;
         }
+
         .cart-sidebar.show {
             right: 0;
         }
+
         .cart-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             display: none;
         }
+
         .cart-overlay.show {
             display: block;
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -108,14 +119,14 @@ $stmt = $menu->readAvailable();
                         <h4 class="text-white mt-2">Aneka Rasa</h4>
                         <small class="text-white-50"><?php echo $_SESSION['full_name']; ?></small>
                     </div>
-                    
+
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="dashboard.php">
                                 <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                             </a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a class="nav-link active" href="order_menu.php">
                                 <i class="fas fa-shopping-cart me-2"></i>Pesan Makanan
@@ -126,7 +137,7 @@ $stmt = $menu->readAvailable();
                                 <i class="fas fa-history me-2"></i>Pesanan Saya
                             </a>
                         </li>
-                        
+
                         <li class="nav-item mt-3">
                             <a class="nav-link" href="../controllers/AuthController.php?action=logout">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -137,21 +148,22 @@ $stmt = $menu->readAvailable();
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Menu Makanan</h1>
                     <button class="btn btn-primary" onclick="toggleCart()">
                         <i class="fas fa-shopping-cart me-2"></i>Keranjang (<span id="cart-count">0</span>)
                     </button>
                 </div>
 
-                <?php if(isset($success)): ?>
+                <?php if (isset($success)): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <?php echo $success; ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
 
-                <?php if(isset($error)): ?>
+                <?php if (isset($error)): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <?php echo $error; ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -159,35 +171,40 @@ $stmt = $menu->readAvailable();
                 <?php endif; ?>
 
                 <div class="row">
-                    <?php 
+                    <?php
                     $current_category = '';
-                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)): 
-                        if($current_category != $row['category_name']):
-                            if($current_category != '') echo '</div>';
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)):
+                        if ($current_category != $row['category_name']):
+                            if ($current_category != '')
+                                echo '</div>';
                             $current_category = $row['category_name'];
-                    ?>
-                        <div class="col-12 mb-3">
-                            <h3 class="text-primary"><?php echo htmlspecialchars($current_category); ?></h3>
-                        </div>
-                        <div class="row">
-                    <?php endif; ?>
-                    
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card menu-card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($row['name']); ?></h5>
-                                <p class="card-text text-muted"><?php echo htmlspecialchars($row['description']); ?></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="text-success mb-0">Rp <?php echo number_format($row['price'], 0, ',', '.'); ?></h6>
-                                    <button class="btn btn-primary btn-sm" onclick="addToCart(<?php echo htmlspecialchars(json_encode($row)); ?>)">
-                                        <i class="fas fa-plus"></i> Tambah
-                                    </button>
+                            ?>
+                            <div class="col-12 mb-3">
+                                <h3 class="text-primary"><?php echo htmlspecialchars($current_category); ?></h3>
+                            </div>
+                            <div class="row">
+                            <?php endif; ?>
+
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card menu-card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($row['name']); ?></h5>
+                                        <p class="card-text text-muted"><?php echo htmlspecialchars($row['description']); ?>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="text-success mb-0">Rp
+                                                <?php echo number_format($row['price'], 0, ',', '.'); ?>
+                                            </h6>
+                                            <button class="btn btn-primary btn-sm"
+                                                onclick="addToCart(<?php echo htmlspecialchars(json_encode($row)); ?>)">
+                                                <i class="fas fa-plus"></i> Tambah
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <?php endwhile; ?>
+
+                        <?php endwhile; ?>
                     </div>
                 </div>
             </main>
@@ -205,12 +222,12 @@ $stmt = $menu->readAvailable();
                 </button>
             </div>
         </div>
-        
+
         <div class="p-3">
             <div id="cart-items">
                 <p class="text-muted text-center">Keranjang kosong</p>
             </div>
-            
+
             <div id="cart-summary" style="display: none;">
                 <hr>
                 <div class="d-flex justify-content-between">
@@ -235,7 +252,7 @@ $stmt = $menu->readAvailable();
                         <input type="hidden" name="action" value="place_order">
                         <input type="hidden" name="cart_items" id="checkout_cart_items">
                         <input type="hidden" name="total_amount" id="checkout_total">
-                        
+
                         <div class="mb-3">
                             <label for="customer_name" class="form-label">Nama Lengkap</label>
                             <input type="text" class="form-control" name="customer_name" required>
@@ -244,7 +261,7 @@ $stmt = $menu->readAvailable();
                             <label for="customer_phone" class="form-label">No. Telepon</label>
                             <input type="tel" class="form-control" name="customer_phone" required>
                         </div>
-                        
+
                         <div class="border p-3 rounded">
                             <h6>Ringkasan Pesanan:</h6>
                             <div id="checkout_summary"></div>
@@ -269,7 +286,7 @@ $stmt = $menu->readAvailable();
 
         function addToCart(item) {
             const existingItem = cart.find(cartItem => cartItem.id === item.id);
-            
+
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
@@ -280,7 +297,7 @@ $stmt = $menu->readAvailable();
                     quantity: 1
                 });
             }
-            
+
             updateCartDisplay();
         }
 
@@ -289,10 +306,12 @@ $stmt = $menu->readAvailable();
             updateCartDisplay();
         }
 
+
         function updateQuantity(itemId, change) {
             const item = cart.find(cartItem => cartItem.id === itemId);
             if (item) {
                 item.quantity += change;
+
                 if (item.quantity <= 0) {
                     removeFromCart(itemId);
                 } else {
@@ -319,18 +338,15 @@ $stmt = $menu->readAvailable();
                 let itemsHtml = '';
                 cart.forEach(item => {
                     itemsHtml += `
-                        <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
-                            <div>
-                                <h6 class="mb-0">${item.name}</h6>
-                                <small class="text-muted">Rp ${item.price.toLocaleString('id-ID')}</small>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="mx-2">${item.quantity}</span>
-                            </div>
-                        </div>
-                    `;
+        <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+            <div>
+                <h6 class="mb-0" style="max-width: 150px; white-space: normal;">${item.name}</h6>
+                <small class="text-muted">Rp ${item.price.toLocaleString('id-ID')}</small>
+            </div>
+        </div>
+    `;
                 });
-                
+
                 cartItems.innerHTML = itemsHtml;
                 cartTotal.textContent = totalAmount.toLocaleString('id-ID');
                 cartSummary.style.display = 'block';
@@ -340,7 +356,7 @@ $stmt = $menu->readAvailable();
         function toggleCart() {
             const cartSidebar = document.getElementById('cart-sidebar');
             const cartOverlay = document.getElementById('cart-overlay');
-            
+
             cartSidebar.classList.toggle('show');
             cartOverlay.classList.toggle('show');
         }
@@ -352,7 +368,7 @@ $stmt = $menu->readAvailable();
             }
 
             const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+
             document.getElementById('checkout_cart_items').value = JSON.stringify(cart);
             document.getElementById('checkout_total').value = totalAmount;
             document.getElementById('checkout_total_display').textContent = totalAmount.toLocaleString('id-ID');
@@ -373,10 +389,11 @@ $stmt = $menu->readAvailable();
             checkoutModal.show();
         }
 
-        <?php if(isset($success)): ?>
-        cart = [];
-        updateCartDisplay();
+        <?php if (isset($success)): ?>
+            cart = [];
+            updateCartDisplay();
         <?php endif; ?>
     </script>
 </body>
+
 </html>
