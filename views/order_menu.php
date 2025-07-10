@@ -47,7 +47,7 @@ $stmt = $menu->readAvailable();
     <style>
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(102, 234, 131) 0%,rgb(75, 162, 162) 100%);
         }
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);

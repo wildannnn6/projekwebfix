@@ -31,7 +31,7 @@ if($_POST) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(102, 234, 164) 0%,rgb(75, 162, 162) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -43,7 +43,7 @@ if($_POST) {
             backdrop-filter: blur(10px);
         }
         .brand-logo {
-            color: #667eea;
+            color:rgb(102, 234, 131);
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
