@@ -186,35 +186,44 @@ $total_users = $user->readAll()->rowCount();
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <h3>Selamat Datang di Sistem Aneka Rasa!</h3>
-                                <p class="lead">Anda login sebagai: <strong><?php echo ucfirst(str_replace('_', ' ', $_SESSION['role'])); ?></strong></p>
-                                
-                                <?php if($_SESSION['role'] == 'super_admin'): ?>
-                                    <p>Sebagai Super Admin, Anda memiliki akses penuh untuk mengelola semua data sistem.</p>
-                                <?php elseif($_SESSION['role'] == 'staff'): ?>
-                                    <p>Sebagai Staff, Anda dapat mengelola menu, kategori, dan pesanan pelanggan.</p>
-                                <?php else: ?>
-                                    <p>Sebagai Customer, Anda dapat memesan makanan dan melihat riwayat pesanan Anda.</p>
-                                <?php endif; ?>
-                                
-                                <div class="mt-4">
-                                    <?php if($_SESSION['role'] == 'user'): ?>
-                                        <a href="order_menu.php" class="btn btn-primary btn-lg">
-                                            <i class="fas fa-shopping-cart me-2"></i>Mulai Pesan
-                                        </a>
-                                    <?php else: ?>
-                                        <a href="menu.php" class="btn btn-primary btn-lg">
-                                            <i class="fas fa-utensils me-2"></i>Kelola Menu
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-12">
+        <div class="p-5 mb-4 bg-light rounded-3 text-center">
+            <div class="container-fluid py-3">
+                <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+                <h1 class="display-5 fw-bold">Selamat Datang Kembali, <?php echo $_SESSION['full_name']; ?>!</h1>
+                
+                <?php if($_SESSION['role'] == 'super_admin'): ?>
+                    <p class="fs-4 text-muted">Anda memiliki kontrol penuh atas sistem. Siap untuk mengelola data dan memantau semua aktivitas?</p>
+                <?php elseif($_SESSION['role'] == 'staff'): ?>
+                    <p class="fs-4 text-muted">Selamat bertugas! Mari layani pelanggan dengan yang terbaik hari ini. Anda dapat mengelola menu dan pesanan.</p>
+                <?php else:?>
+                    <p class="fs-4 text-muted">Lapar? Temukan aneka rasa favoritmu dan pesan sekarang juga. Kami siap mengantarkan kelezatan untuk Anda.</p>
+                <?php endif; ?>
+                
+                <hr class="my-4">
+                
+
+                <div class="mt-4">
+                    <?php if($_SESSION['role'] == 'user'): ?>
+                        <a href="order_menu.php" class="btn btn-primary btn-lg">
+                            <i class="fas fa-shopping-cart me-2"></i>Mulai Pesan
+                        </a>
+                        <a href="my_orders.php" class="btn btn-outline-primary btn-lg ms-2">
+                            <i class="fas fa-history me-2"></i>Lacak Pesanan Saya
+                        </a>
+                    <?php else:?>
+                        <a href="menu.php" class="btn btn-primary btn-lg">
+                            <i class="fas fa-utensils me-2"></i>Kelola Menu
+                        </a>
+                        <a href="orders.php" class="btn btn-success btn-lg ms-2">
+                            <i class="fas fa-receipt me-2"></i>Lihat Pesanan
+                        </a>
+                    <?php endif; ?>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
             </main>
         </div>
     </div>

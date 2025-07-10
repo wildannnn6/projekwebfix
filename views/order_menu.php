@@ -325,12 +325,7 @@ $stmt = $menu->readAvailable();
                                 <small class="text-muted">Rp ${item.price.toLocaleString('id-ID')}</small>
                             </div>
                             <div class="d-flex align-items-center">
-                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, -1)">-</button>
                                 <span class="mx-2">${item.quantity}</span>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, 1)">+</button>
-                                <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeFromCart(${item.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                             </div>
                         </div>
                     `;
