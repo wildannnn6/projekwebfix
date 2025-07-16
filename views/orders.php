@@ -191,7 +191,7 @@ $stmt = $order->readAll();
                                 <option value="disiapkan">disiapkan</option>
                                 <option value="siap">siap</option>
                                 <option value="diantar">diantar</option>
-                                <option value="batal">batal</option>
+                                <option value="dibatalkan">batal</option>
                             </select>
                         </div>
                     </div>
