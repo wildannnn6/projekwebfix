@@ -183,7 +183,7 @@ $categories = $category->readAll();
                                         <td>Rp <?php echo number_format($row['price'], 0, ',', '.'); ?></td>
                                         <td><?php echo htmlspecialchars($row['category_name']); ?></td>
                                         <td>
-                                            <span class="badge <?php echo $row['status'] == 'available' ? 'bg-success' : 'bg-danger'; ?>">
+                                            <span class="badge <?php echo $row['status'] == 'tersedia' ? 'bg-success' : 'bg-danger'; ?>">
                                                 <?php echo ucfirst($row['status']); ?>
                                             </span>
                                         </td>
@@ -243,8 +243,8 @@ $categories = $category->readAll();
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-control" name="status" required>
-                                <option value="available">Available</option>
-                                <option value="unavailable">Unavailable</option>
+                                <option value="tersedia">tersedia</option>
+                                <option value="tidak_tersedia">tidak tersedia</option>
                             </select>
                         </div>
                     </div>
@@ -295,8 +295,8 @@ $categories = $category->readAll();
                         <div class="mb-3">
                             <label for="edit_status" class="form-label">Status</label>
                             <select class="form-control" name="status" id="edit_status" required>
-                                <option value="available">Available</option>
-                                <option value="unavailable">Unavailable</option>
+                                <option value="tersedia">tersedia</option>
+                                <option value="tidak_tersedia">tidak_tersedia</option>
                             </select>
                         </div>
                     </div>

@@ -29,7 +29,7 @@ class Menu {
         $query = "SELECT m.id, m.name, m.description, m.price, c.name as category_name 
                   FROM " . $this->table_name . " m 
                   LEFT JOIN categories c ON m.category_id = c.id 
-                  WHERE m.status = 'available'
+                  WHERE m.status = 'tersedia'
                   ORDER BY c.name, m.name";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
