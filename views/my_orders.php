@@ -106,11 +106,11 @@ $stmt = $order->readByUser($_SESSION['user_id']);
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h6 class="mb-0">Pesanan #<?php echo $row['id']; ?></h6>
                                     <span class="badge bg-<?php 
-                                        echo $row['status'] == 'pending' ? 'warning' : 
-                                            ($row['status'] == 'confirmed' ? 'info' : 
-                                            ($row['status'] == 'preparing' ? 'primary' : 
-                                            ($row['status'] == 'ready' ? 'success' : 
-                                            ($row['status'] == 'delivered' ? 'success' : 'danger')))); 
+                                        echo $row['status'] == 'ditunda' ? 'warning' : 
+                                            ($row['status'] == 'dikonfirmasi' ? 'info' : 
+                                            ($row['status'] == 'disiapkan' ? 'primary' : 
+                                            ($row['status'] == 'siap' ? 'success' : 
+                                            ($row['status'] == 'diantar' ? 'success' : 'danger')))); 
                                     ?>">
                                         <?php echo ucfirst($row['status']); ?>
                                     </span>

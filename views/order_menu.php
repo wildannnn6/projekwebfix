@@ -18,7 +18,7 @@ if ($_POST && isset($_POST['action']) && $_POST['action'] == 'place_order') {
     $order->customer_name = $_POST['customer_name'];
     $order->customer_phone = $_POST['customer_phone'];
     $order->total_amount = $_POST['total_amount'];
-    $order->status = 'pending';
+    $order->status = 'ditunda';
 
     $order_id = $order->create();
     if ($order_id) {

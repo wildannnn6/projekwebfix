@@ -145,11 +145,11 @@ $stmt = $order->readAll();
                                         <td>Rp <?php echo number_format($row['total_amount'], 0, ',', '.'); ?></td>
                                         <td>
                                             <span class="badge bg-<?php 
-                                                echo $row['status'] == 'pending' ? 'warning' : 
-                                                    ($row['status'] == 'confirmed' ? 'info' : 
-                                                    ($row['status'] == 'preparing' ? 'primary' : 
-                                                    ($row['status'] == 'ready' ? 'success' : 
-                                                    ($row['status'] == 'delivered' ? 'success' : 'danger')))); 
+                                                echo $row['status'] == 'ditunda' ? 'warning' : 
+                                                ($row['status'] == 'dikonfirmasi' ? 'info' : 
+                                                ($row['status'] == 'disiapkan' ? 'primary' : 
+                                                ($row['status'] == 'siap' ? 'success' : 
+                                                ($row['status'] == 'diantar' ? 'success' : 'danger')))); 
                                             ?>">
                                                 <?php echo ucfirst($row['status']); ?>
                                             </span>
@@ -186,12 +186,12 @@ $stmt = $order->readAll();
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-control" name="status" id="status" required>
-                                <option value="pending">Pending</option>
-                                <option value="confirmed">Confirmed</option>
-                                <option value="preparing">Preparing</option>
-                                <option value="ready">Ready</option>
-                                <option value="delivered">Delivered</option>
-                                <option value="cancelled">Cancelled</option>
+                                <option value="ditunda">ditunda</option>
+                                <option value="dikonfirmasi">dikonfirmasi</option>
+                                <option value="disiapkan">disiapkan</option>
+                                <option value="siap">siap</option>
+                                <option value="diantar">diantar</option>
+                                <option value="batal">batal</option>
                             </select>
                         </div>
                     </div>

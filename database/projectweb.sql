@@ -41,7 +41,7 @@ CREATE TABLE orders (
     customer_name VARCHAR(100) NOT NULL,
     customer_phone VARCHAR(20),
     total_amount DECIMAL(10,2) NOT NULL,
-    status ENUM('pending', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled') DEFAULT 'pending',
+    status ENUM('ditunda', 'dikonfirmasi', 'disiapkan', 'siap', 'diantar', 'batal') DEFAULT 'ditundaa',
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
